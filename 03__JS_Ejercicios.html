@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+
+//Funcion que devuelva la suma de unos número que recibe por parámetros
+
+function sumar(){
+    var sum = 0;
+    for(e=0;e<arguments.length; e++){
+        sum = sum + arguments[e];
+    }
+    return sum;
+}
+
+console.log("Sumar: "+ sumar(1,2,3,4,5));
+
+
+
+function sumarProfe(){
+    let total = 0;
+    for(a=0;a<arguments.length;a++){
+        total = total+arguments[a];
+    }
+    return total;
+}
+console.log("Sumar: "+ sumarProfe(1,2,3,4,5));
+
+//Función que de una lista de número devuelva el máximo
+
+function extraerMax(){
+    var sel = undefinied;
+    for(escort=0;escort<arguments.lenth;escort++){
+        if(sel<arguments[escort]){
+            sel = arguments[escort]
+        }
+    };
+
+    return sel;
+}
+
+console.log("Máximo 3,6,7: "+ extraerMax(3,6,7));
+console.log("Máximo 9,8,7: "+ extraerMax(9,8,7));
+console.log("Máximo 8,9,7,6,6: "+ extraerMax(8,9,7,6,6));
+console.log("Máximo undefinied: "+ extraerMax());
+
+//Función que diga si un número es primo
+
+function primo(a1,i){
+    if((a1%i)!=0){
+        if (a1 = i){
+            return("es primo");
+        }
+        else{
+         primo(a1,i++);
+        }
+    }
+   
+
+}
+
+console.log("Primo: "+ primo(3,2));
+console.log("Primo: "+ primo(11,2));
+console.log("Primo: "+ primo(12,2));
+
+
+
+
+</script>
+
+
+
+<body>
+    
+</body>
+</html>

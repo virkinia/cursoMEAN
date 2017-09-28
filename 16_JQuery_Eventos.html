@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript"src="jquery.js"></script>
+<script type="text/javascript">
+
+
+
+function dale(){
+    console.log("===========================");
+    console.log(arguments);
+    alert("Leña al mono que es de goma");
+}
+
+$(inicializar);
+
+function validar(evento){
+    console.log("===========================");
+    console.log("evento");
+
+    if( $("#dato").val().trim().length == 0){
+        alert("Dato es obligatorio");
+        evento.preventDefault();
+    }
+    console.log(evento.isDefaultPrevented());
+}
+
+function inicializar(){
+
+    //asigna evento
+    $("#DALE").click(dale);
+    //document.getElementById("DALE").onclick = DALE;
+
+
+    $("#enviar").click(validar);
+}
+   
+
+
+
+</script>
+<body>
+
+        <h1>JS.Eventos</h1>
+        
+            <input type="button" id="DALE" value="DALE"/>
+        
+            <form action="XXX"> <!--XXX = URI - # es para pruebas cuando no quiero enviar nada   -->
+                <input type="text" id="dato" name="dato" value="" />
+                <input type="submit" id="enviar" value="enviar"/>
+            </form>
+    
+</body>
+</html>

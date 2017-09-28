@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+
+//Variables 'Globales'
+    let peliculas = []; //Un array para guardar las peliculas
+    let peliSeleccionada = undefined;
+
+//Referencias a las cajas de texto
+    let txtTitulo;
+    let txtDirector;
+    let txtGenero;
+    let txtAnio;
+
+
+//Prototipo
+    function Pelicula(titulo,director,genero,anio){
+        if(typeof Pelicula.contador == 'undefined'){
+            Pelicula.contador = 0;
+        }
+            Pelicula.contador++;
+
+
+        this.id = Pelicula.contador;
+        this.titulo = titulo;
+        this.director = director;
+        this.genero = genero;
+        this.anio =  anio;
+    }
+
+    Pelicula.prototype.vaciar = vaciar;
+
+// DATOS DE PRUEBA
+    peliculas.push(new Pelicula("t1","d1","g1",1111));
+    peliculas.push(new Pelicula("t2","d2","g2",2222));
+    peliculas.push(new Pelicula("t3","d3","g3",3333));
+    peliculas.push(new Pelicula("t4","d4","g4",4444));
+
+
+
+
+
+   function insertar(){
+       console.log("Insertar");
+
+
+       /*Lo mismo pero sin prototipo - lo normal es no usar el parámetro
+       let peli = { 'titulo'    : document.getElementById("titulo").value,
+                    'director'  : document.getElementById("director").value,
+                    'genero'    : document.getElementById("genero").value,
+                    'anio'      : document.getElementById("anio").value; }*/
+       
+       let peli = new Pelicula();
+       peli.titulo   = document.getElementById("titulo").value;
+       peli.director = document.getElementById("director").value;
+       peli.genero   = document.getElementById("genero").value;
+       peli.anio     = document.getElementById("anio").value;
+
+       if(!validarFormulario(peli)){
+           return  ;                //Para dejar fuera el código de la lógica
+       }
+        
+
+            peliculas.push(peli);
+            console.log(peliculas);
+            rellenar();
+            vaciar();
+        
+
+   }
+
+
+   function validarFormulario(peli){
+    document.getElementById("mnsjTitulo").innerHTML= "";
+    document.getElementById("mnsjDirector").innerHTML= "";
+    document.getElementById("mnsjGenero").innerHTML= "";
+    document.getElementById("mnsjAnio").innerHTML= "";
+
+    let ok = true;
+
+    if (esvacioCampo(peli.titulo)) {
+        document.getElementById("mnsjTitulo").innerHTML = "Campo obligatorio";
+        ok=false;
+    }
+        
+    if (esvacioCampo(peli.director)) {
+        document.getElementById("mnsjDirector").innerHTML = "Campo obligatorio";
+        ok=false;
+    }
+    if (esvacioCampo(peli.genero)) {
+        document.getElementById("mnsjGenero").innerHTML = "Campo obligatorio";
+        ok=false;
+    }
+    if (esvacioCampo(peli.anio)) {
+        document.getElementById("mnsjAnio").innerHTML = "Campo obligatorio";
+        ok=false;
+    }
+
+    return ok;
+   }
+
+
+//esta el no la usa
+   function esvacioCampo (valor){ // el profe ha creado una función validar formulario
+
+       if (valor.trim() == ""){
+           return true;
+       }else{
+           return false;
+       }
+   }
+
+   
+   function modificar(){
+        console.log("Modificar");
+
+        if(typeof peliSeleccionada == 'undefined'){
+            alert("No hay ningún elemento seleccionado");
+            return;
+        }
+        if(!validarFormulario()){
+            return;
+        }
+        
+            peliSeleccionada.titulo= document.getElementById("titulo").value;
+            peliSeleccionada.director = document.getElementById("director").value;
+            peliSeleccionada.genero= document.getElementById("genero").value ;
+            peliSeleccionada.anio= document.getElementById("anio").value;
+            
+            peliSeleccionada = undefined;
+
+            rellenar();
+
+   }
+
+   function borrar(){
+
+    console.log("Borrar");
+
+        if(peliSeleccionada == undefined){
+            alert("No hay ningún elemento seleccionado");
+            return;
+        }
+
+        for(var a=0; a<peliculas.length; a++){
+
+            if(peliculas[a].id == peliSeleccionada.id){
+                //peliculas.splice(a,1);  
+              // rellenar();
+                break;
+            }
+        }
+        for(var b=a; b<peliculas.length-1;b++){ //modificar el array manualmente
+            peliculas[b]= peliculas[b+1];
+
+        }
+        peliculas.pop();
+        //peliculas.length = peliculas.length-1;
+        rellenar();
+        
+    }
+
+
+
+   function vaciar(){
+    console.log("vaciar");
+        txtTitulo.value = "";
+        txtDirector.value = "";
+        txtGenero.value = "";
+        txtAnio.value = "";
+       
+       peliSeleccionada = undefined;
+
+    
+   }
+
+   function seleccionarPelicula(idPelicula){
+        alert(idPelicula);
+        for (let a=0;a<peliculas.length;a++){
+            let peli = peliculas[a];
+            if (peli.id == idPelicula){
+                txtTitulo.value = peli.titulo;
+                txtDirector.value = peli.director;
+                txtGenero.value = peli.genero;
+                txtAnio.value = peli.anio;
+                peliSeleccionada = peli;
+            break;
+            }
+        }
+
+
+   }
+
+   function rellenar(){
+       console.log("rellenar");
+
+       let tabla = document.getElementById("tablaPeliculas");
+       tabla.innerHTML="";
+
+       //let spm = function (){} //** para compartir todos los tr la misma función más eficiente
+
+        for(let a=0; a<peliculas.length;a++){
+
+            let peli = peliculas[a];
+            let tr = document.createElement("tr");
+            tr.setAttribute("id", "p_"+peli.id); //   tr.id = "p"+peli.id;
+
+            //tr.onclick = spm; //**todos los TR compartirán
+            tr.onclick = function(){
+                seleccionarPelicula(this.id.substring(2)); //aquí es el tr
+            }
+
+            let td1 = document.createElement("td");
+            let td2 = document.createElement("td");
+            let td3 = document.createElement("td");
+            let td4 = document.createElement("td");
+            
+            td1.appendChild(document.createTextNode(peli.titulo));
+            td2.appendChild(document.createTextNode(peli.director));
+            td3.appendChild(document.createTextNode(peli.genero));
+            td4.appendChild(document.createTextNode(peli.anio));
+
+        
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+
+          
+
+           // tr.onclick = function(){ alert(peli.id) }; - no funciona en navegadores antiguos
+            tabla.appendChild(tr);
+
+        }   
+        vaciar();     
+   }
+
+
+   window.onload = function(){     //equivalente a pnerlo en la etiqueta body
+        document.getElementById("btninsertar").onclick = insertar; 
+        document.getElementById("btnmodificar").onclick = modificar; 
+        document.getElementById("btnborrar").onclick = borrar; 
+        document.getElementById("btnvaciar").onclick = vaciar; 
+
+
+        txtTitulo = document.getElementById("titulo");
+        txtDirector = document.getElementById("director");
+        txtGenero= document.getElementById("genero");
+        txtAnio= document.getElementById("anio");
+
+
+
+        rellenar();
+
+
+
+        
+    } 
+
+
+</script>
+<body>
+        <h1 align="center">
+          <font color = "lightGreen">  
+            Gestión de Películas
+          </font>
+        </h1>
+       
+        <!-- form solo nos hace falta si vamos a enviar una petición, en este caso no vamosa utlizarlo -->
+        <!-- tampoco tenemos botones de submit, eso es cosa del pasado-->
+        <!-- no tienen name porque no va a ver peticiones-->
+    
+        <p align="center">
+        <input type="button" id="btninsertar" value="Insertar"/>
+        <input type="button" id="btnmodificar" value="Modificar"/>
+        <input type="button" id="btnborrar" value="Borrar"/>
+        <input type="button" id="btnvaciar" value="Vaciar"/>
+    </p>  
+
+    <!-- no tienen name porque no va a ver peticiones-->
+    <table align="center">
+        <tr>
+            <td id="tdTitulo"></td>
+            <td>
+                    <input type="text" id="titulo"/>
+            </td>
+            <td id="mnsjTitulo"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="tdDirecor">
+                    <input type="text" id="director"/>
+            </td>
+            <td id="mnsjDirector"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                    <input type="text" id="genero" />
+            </td>
+            <td id="mnsjGenero"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                    <input type="text" id="anio" />
+            </td>
+            <td id="mnsjAnio"></td>
+        </tr>
+    </table>
+
+    <table align="center" border="1">
+        <thead>
+            <tr>
+                <th>Título </th>
+                <th>Director</th>
+                <th>Género</th>
+                <th>Año</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPeliculas">
+
+        </tbody>
+    </table>   
+    
+</body>
+</html>

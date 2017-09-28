@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+//AJAX es javascript de toda la vida - Asynchronous Javascript And XML - los XML ya son JSON
+//Peticiones 
+//Navegador pulsar enlance / cuando recibe la respuesta borra todo y muestra lo que viene
+
+let xmlHttp = new XMLHttpRequest();
+
+function enviarPeticionSincrona(){
+    //GET: obtener un recurso que ya existe
+
+    let parametros = "?nombre="+document.getElementById("nombre").value;
+    
+    //xmlHttp.open(metodo,url,sincrono/asincrono); //para configurar la petición
+    xmlHttp.open("GET","http://localhost:8080/Ej01_EjemploAjax/buscar"+parametros,false);
+    xmlHttp.send(null);
+
+
+    console.log(xmlHttp.responseText); //body de la respuesta como un texto
+    //xmlHttp.responseXML; respuesta es igual a unXML - tienes el nodo raiz del XML
+    console.log(xmlHttp.status); //código dela respuesta
+    console.log(xmlHttp.statusText);
+
+    procesarRespuesta(xmlHttp.responseText);
+}
+
+function procesarRespuesta(respuesta){
+    document.getElementById("resultado").innerHTML = respuesta;
+  
+}
+
+
+//Peticiones asíncronas
+
+function enviarPeticionAsincrona(){
+
+xmlHttp.onreadystatechange = function(){
+
+    //método de retrollamada o callback
+
+        //0 Objeto creado - Inicializado
+        //1 se ha hecho el open - Leyendo
+        //2 se está en espera - Leído
+        //3 se empieza a recibir la respuesta - Interactiva
+        //4 se tiene la respuesta - Completo
+
+    console.log("RS: "+this.readyState);
+    if(this.readyState == 4){
+        procesarRespuesta(this.responseText);
+    }
+    }
+
+    let parametros = "?nombre="+document.getElementById("nombre").value;
+    xmlHttp.open("GET","http://localhost:8080/Ej01_EjemploAjax/buscar"+parametros,true);
+    xmlHttp.send(null);
+    
+}
+
+
+
+window.onload = function(){
+
+   // document.getElementById("btnBuscarS").onclick = function(){
+   //     enviarPeticioneSincrona(); // aquí invoco la fución
+   // };
+
+   document.getElementById("btnBuscarS").onclick = enviarPeticionSincrona;
+   document.getElementById("btnBuscarA").onclick = enviarPeticionAsincrona;
+}
+
+
+
+</script>
+
+<body>
+     <marquee>
+        <h1>
+            <font color="orange">
+                AJAX
+            </font>
+        </h1>
+    </marquee>
+    <p align="center">
+        Nombre
+        <input type="text" id="nombre">
+        <input type="button" id="btnBuscarS" value="Buscar_Síncrono"> 
+        <input type="button" id="btnBuscarA" value="Buscar_Asíncrono"> 
+        <!-- si no encontramos un botón sin name es porque va haber javascript sí o sí-->
+    </p>
+    <p align="center" id="resultado" ></p>
+</body>
+</html>

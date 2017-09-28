@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+
+xmlHttp = new XMLHttpRequest(); //Un clon del prototipo inicial
+
+let usuarioSel;
+
+function enviarPeticionAjax( opciones ){
+
+    let metodo = 'GET';
+
+    //undefienied es un false
+    //si existe la opción es true
+    //para susitutir if (typeof opciones.metodo != "undefinied")
+    if(opciones.metodo){
+        metodo = opciones.metodo;
+    }
+
+    let parametros = "";
+    if (opciones.parametros){
+        parametros = opciones.parametros;
+    }
+
+xmlHttp.onreadystatechange = function(){
+
+   
+
+    xmlHttp.onreadystatechange = function(){
+        if(this.readyState == 4){
+            opciones.success(this.responseText);
+        }
+    }
+
+}
+
+    let asincrono = true;
+    xmlHttp.open(metodo,opciones.url+"?"+parametros,asincrono);
+    xmlHttp.send(null);
+    
+}
+
+function rellenarTablaUsuarios(usuariosJSON){
+
+    //función eval:NO USAR
+
+    console.log(usuariosJSON);
+
+   // eval(usuariosJSON); // podríamos hacerlo así pero NO
+
+   // let usuarios = eval(usuariosJSON) //NO - colleja porque nos pueden meter cualquier cosa
+
+    //Hay que osar el objeto JSON
+    //obj = JSON.parse(usuariosJSON);
+    //json = JSON.stringify(usauriosJSON);
+
+    let clientes = JSON.parse(usuariosJSON);
+
+    let tabla =document.getElementById("tablaClientes");
+    tabla.innerHTML = "";
+
+    console.log (usuariosJSON.length);
+
+    tabla.innerHTML = "";
+    for(let a=0; a<clientes.length; a++){
+        let  cliente = clientes[a];
+        let tr = "<tr onclick='seleccionarUsuario("+cliente.id+")'>" +
+            "<td>"+cliente.nombre+"</td>"+
+            "<td>"+cliente.login+"</td>"+
+            "<td>"+cliente.password+"</td>"+
+            "</tr>";
+
+        tabla.innerHTML = tabla.innerHTML+tr;
+    }
+
+    /*  for(let a=0; a<clientes.length; a++){
+
+        let cliente = clientes[a];
+
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+     
+
+        let txt1 = document.createTextNode(cliente.nombre);
+        let txt2 = document.createTextNode(cliente.login);
+        let txt3 = document.createTextNode(cliente.password);
+      
+
+        td1.appendChild(txt1);
+        td2.appendChild(txt2);
+        td3.appendChild(txt3);
+      
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+     
+
+        tabla.appendChild(tr);        
+
+    }*/
+} //fin for
+
+function seleccionarUsuario(id){
+    enviarPeticionAjax(
+        {
+            'url' : 'http://localhost:8080/CasoPractico_REST/servicios/usuarios/'+id,
+            'success' : rellenarFormulario
+        }
+    );
+}
+
+
+function rellenarFormulario(usuarioJSON){
+    console.log (usuarioJSON);
+    let usuario = JSON.parse(usuarioJSON);
+    document.getElementById("nombre").value = usuario.nombre;
+    document.getElementById("login").value = usuario.login;
+    document.getElementById("password").value = usuario.password;
+}
+
+function insertarUsuario(){
+    //envíamos claramente POST
+    xmlHttp.open("POST","http://localhost:8080/CasoPractico_REST/servicios/usuarios", true);
+
+    //reescribir el onreasystatachange
+
+
+    xmlHttp.onreadystatechange = function(){
+        if(this.readyState == 4){
+            console.log("insertarUsuario:"+this.status);
+            enviarPeticionAjax(
+            {
+                'url' : 'http://localhost:8080/CasoPractico_REST/servicios/usuarios/',
+                'success' : rellenarFormulario
+            });
+        }
+    }
+    //Cabecera
+    xmlHttp.setRequestHeader("content-type","application/json");
+
+    let nombre = document.getElementById("nombre").value
+    let login = document.getElementById("login").value
+    let password = document.getElementById("password").value
+    //manera rupestre
+    //let json = "{'nombre' : '"+nombre+"', 'login' : '"+login+"', 'password' :'"+password+"' }";
+   
+   //manera menos rupestre
+    let usuario = { 'nombre' : nombre,
+                    'login' : login,
+                    'password': password};
+    
+    xmlHttp.send(JSON.stringify(usuario));
+}
+
+    
+
+window.onload = function(){
+
+//url
+//metodo
+//paramentros
+//body
+//content type / heraders
+//síncrono/asíncrono
+//función que debe ejecutarse cuando llegue la respuesta
+//headers
+
+    document.getElementById("btnInsertar").onclick = insertarUsuario;
+
+    enviarPeticionAjax(
+        {
+            'url'       : "http://localhost:8080/CasoPractico_REST/servicios/usuarios",
+            'success'   : rellenarTablaUsuarios
+        }
+    );
+
+
+}
+</script>
+
+<body>
+
+    <h1>Gestión Usuarios</h1>
+
+    <div align="center">
+
+    </div>
+</p>
+
+<p align="center">
+        <input type="button" id="btnInsertar" value="Insertar"/>
+        <input type="button" id="btnmodificar" value="Modificar"/>
+        <input type="button" id="btnborrar" value="Borrar"/>
+        <input type="button" id="btnvaciar" value="Vaciar"/>
+    </p>  
+
+    <!-- no tienen name porque no va a ver peticiones-->
+    <table align="center">
+        <tr>
+            <td id="tdnombre"></td>
+            <td>
+                    <input type="text" id="nombre"/>
+            </td>
+            <td id="mnsjnombre"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="tdLogin">
+                    <input type="text" id="login"/>
+            </td>
+            <td id="mnsjLogin"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                    <input type="text" id="password" />
+            </td>
+            <td id="mnsjpassword"></td>
+        </tr>
+      
+    </table>
+
+    
+<table align="center" border="1">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Login</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+        <tbody id="tablaClientes">
+
+        </tbody>
+    </table>
+
+    
+</body>
+</html>

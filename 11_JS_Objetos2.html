@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+
+//Array con tres arrays asociativos
+
+    let personas = [
+                    {   nombre    : 'N1',
+                        direccion : 'D1',
+                        telefono  : 'T1'},   
+                    {   nombre    : 'N2',
+                        direccion : 'D2',
+                        telefono  : 'T2'},   
+                    {   nombre    : 'N3',
+                        direccion : 'D3',
+                        telefono  : 'T3'},   
+                    ];
+
+    for(let a=0; a<personas.length;a++){
+        let persona = personas[a];
+        console.log(`${persona.nombre}, ${persona.direccion}, ${persona.telefono}`);
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Definimos un prtotipo
+
+let Coche = {   marca       : null,
+                modelo      : null,
+                matricula   : null};
+
+//Creamos objetos a partir del prototipo
+let coche1 = Object.create(Coche); 
+coche1.marca = "Citroën";
+coche1.modelo = "C5";
+coche1.modelo = "1111AAA";
+let coche2 = Object.create(Coche); 
+coche2.marca = "Renault";
+coche2.modelo = "5";
+coche2.modelo = "O-0000-O";
+
+console.log(`Coche1: ${coche1.marca}`);
+console.log(`Coche2: ${coche2.marca}`);
+///////////////////////////////////////////////////////////////////////////////////////////////////
+//POdemos añadir funcionalidad
+let Libro = { titulo : null,
+              autor  : null,
+              inicializar : function(titulo,autor) {
+                  this.titulo = titulo;
+                  this.autor = autor;
+
+              }};
+
+let libro1 = Object.create(Libro);
+libro1.inicializar("Don Quijote", "Cervantes");
+console.log (`Libro1: ${libro1.titulo}, ${libro1.autor}`);
+let libro2 = Object.create(Libro)
+libro2.inicializar("El corazón de las tinieblas", "J.C");
+console.log (`Libro2: ${libro2.titulo}, ${libro2.autor}`);
+
+//Añadir funciones a posteriori al prototipo
+Libro.imprimirConsola = function(){
+        console.log(`Función posteriori: ${this.titulo}, ${this.autor} `);
+}
+//Incluso los objtos previamente disponen de la función - porque tienen una referencia al objeto prototipo
+libro1.imprimirConsola();
+libro2.imprimirConsola()
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//Cualquier objeto puede ser utilizado como prototipo
+let Planeta = { nombre: null,
+                diametro: null};
+
+let jupiter = Object.create(Planeta);
+jupiter.nombre = 'Júpiter';
+jupiter.diametro = 140000;
+
+let saturno = Object.create(jupiter);
+console.log(saturno.nombre); // Júpiter
+
+
+saturno.nombre = "Saturno";
+saturno.diamentro = 23000;
+
+Planeta.imprimirConsola = function(){
+    console.log(`Función posteriori: ${this.nombre}, ${this.diametro} `);
+}
+
+console.log("Comprobación");
+saturno.imprimirConsola();
+jupiter.imprimirConsola();
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Composición de objetos    Cliente + Dirección 
+
+let Cliente = { nombre    : null} ;
+
+let Factura = { codigo : null,
+                cliente : null};
+
+cliente1 = Object.create(Cliente);
+cliente1.nombre = "Buencliente";
+
+factura1 = Object.create(Factura);
+factura2 = Object.create(Factura);
+
+
+factura1.codigo = 01;
+factura2.codigo = 02;
+
+//comparten cliente
+factura1.cliente = cliente1;
+factura2.cliente = cliente1;
+
+factura1.cliente.nombre = "Mal cliente";
+
+console.log(factura2.cliente.nombre);
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//HERENCIA no hay herencia
+
+let Persona = { nombre : null,
+                imprimirConsola: function(){
+                    console.log(this.nombre);
+                }};
+let Alumno = Object.create(Persona);
+
+//Añadimos componentes al prototipo de Alumno;
+Alumno.nota = 10;
+
+let alumno1 = Object.create(Alumno);
+alumno1.nombre = "Philip J Fry";
+alumno1.nota = 0;
+
+
+//POdemos añadir funciones o también sobreescribir
+alumno1.imprimirConsola();
+
+
+
+</script>
+
+<body>
+
+
+    <h1>JS.Objetos 2</h1>
+    
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+
+
+//No está recomendado introducir manejadores de evento en el html, para ello es mejor agregarlos desde
+//el código script, modificando la creación el árbol DOM
+
+    //Programación orientada a eventos - convencer a alguien de que vigile las acciones
+    //El navegador es el contenedor donde se ejecuta mis funciones
+    //con onclick estoy añadiendo un manejador de eventos - sin JS no tendría sentido ponerlo
+    //onload se carga cuando está todo cargadito - siempre que lo indique, sin tener que invocarlo
+
+    /* JS se carga en la web - onload lo que hará es volver a ejecutar la función que deseemos
+    una vez cargada toda la página*/
+
+    function DALE(){
+        alert("Botón DALE pulsado");
+        console.log(DALE.arguments); //Para saber los argumentos que se le han pasado
+    }
+
+    function validarFormulario(evento){
+
+        console.log("Evento:"+ evento);
+        let elem= document.getElementById("dato").value.trim();
+
+        //ON CLICK manda la petición siempre - para evitarlo debemos capturar el evento
+
+        //arguments saber con cuántos atributos estamos invocando a la función
+       
+        if(elem.length != 0){
+            
+
+            
+
+        }else{
+            alert("Debe rellenar el campo dato");
+            //Detenemos el evento
+            evento.preventDefault();
+        }
+    }
+
+    window.onload = function(){     //equivalente a pnerlo en la etiqueta body
+        document.getElementById("DALE").onclick = DALE; 
+        //Si pongo VALE() hago referencia al return de VALE, que sería de undefinied
+        document.getElementById("enviar").onclick = validarFormulario;
+    
+    } 
+
+
+</script>
+
+<body>
+
+    <h1>JS.Eventos</h1>
+
+    <input type="button" id="DALE" value="DALE"/>
+
+    <form action="XXX"> <!--XXX = URI - # es para pruebas cuando no quiero enviar nada   -->
+        <input type="text" id="dato" name="dato" value="" />
+        <input type="submit" id="enviar" value="enviar"/>
+    </form>
+    
+</body>
+</html>

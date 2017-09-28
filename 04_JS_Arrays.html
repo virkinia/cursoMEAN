@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+
+
+//Funcionamiento: en C - declaras el array y cuántas posiciones v ocupar (sin poder cambiar el tamaño)
+    //Accesos a memoria para acceder a un array - 2 accesos a memoria - 1º donde empieza el array 2º sumar posición
+//Funcionamiento array JS:
+// Un array de JS no es un array clásico - es tipo objeto
+// Un array de JS no se declara con un tamaño inicial y es dinámico
+
+var array1 = [];
+var array2 = [1,2,3,4,5];
+
+// Los arrays JS no están tipados
+
+var array3 = [1, "dos",3,"cuatro",false];
+
+//Acceder al array
+console.log(array1[0]);
+console.log(array2[0]);
+
+
+//Como es un objeto tiene funciones y propiedades
+console.log("Longitud: "+ array2.length);
+
+//Funciones para utilizar un arrray como una cola FIFO
+console.log("Añadir a la fila: "+ array2.push(33));
+console.log(array2);
+
+console.log("Entrega y elimina primero el primero de la fila: "+ array2.shift());
+console.log(array2);
+
+console.log("Sacar el último de la pila: "+ array2.pop());
+console.log(array2);
+
+
+//También podemos crear un array con new - es un objeto función NO ES CLASE/CONSTRUCTOR
+//No se recomienda - 1/10 dentistas :D
+let array4 = new Array();
+let array5 = new Array(1,2,3,4,"tocotó");
+console.log(array5);
+
+//Añadir valores después de la creación
+
+array5[1]= "DOS";  //Sustituimos
+console.log(array5);
+
+//Undefinied rellena con aquellos valores no definidos
+array4[2] = 42;
+console.log(array4);
+
+
+
+
+// ARRAYS ASOCIATIVOS - no están indexados, están asociados una clave
+console.log("=========================================");
+let persona = []; //Aquí todavía es un array 
+
+persona["nombre"] = "Bart"; // aquí le indicamos que es asociativo
+persona["direccion"] = "C/Evergreen Terrace";
+persona["telefono"] = 555
+
+console.log(persona);
+
+//Accediendo a valores de un array asociativo - mapa - diccionario
+
+console.log(persona["nombre"]);
+console.log(persona.nombre);
+
+//Alternativa para declarar un array asociativo con valores
+//se pueden poner las claves sin comillas
+let coche ={"marca":"ford",
+            "modelo":"focus",
+            "matricula":"12345"};
+
+
+//XML y JSON; JSON es más económico gasto menos caracteres. Sin embargo, JSON no me permite comprobar los datos
+console.log("=========================================");
+//Mezclando arrays asociativos...
+let array6 = [];
+array6[0] = "Hola";
+array6[1] = "qué";
+array6[2] = "tal?";
+
+console.log(array6);
+
+array6["dato"]="Ojo al dato";
+console.log(array6);
+console.log(array6.length);
+
+//Las funciones de arrays indexados como push, pop o atributos - pueden dar resultados no esperados
+
+
+//Podemos considerar un array asociativo como un objeto con identidad (propiedades), para añadirle funcionalidad
+
+let pelicula ={ titulo  : "Allien",
+                director: "RS",
+                toString: function(){
+                    console.log("La película es "+ this.titulo);
+                }
+            };
+
+
+console.log(pelicula.titulo);
+pelicula.toString();
+
+
+//Recorriendo arrays 
+//Con un for normal solo para INDEXADOS
+//Para arrays asociativos necesitamos un for each
+
+console.log("=========================================");
+let array7 = [1,2,3,4,5,6];
+
+array7[20] = 21;
+for (let a=0; a<array7.length; a++){
+    console.log(array7[a]);
+}
+
+
+console.log("=========================================");
+
+//FUNCIÓNFOR EACH solo sirve para arrays indexados 
+//recibe como parámetro una función que aplica a cada elemento del array - que no produce retorno
+let array8 = [10,20,30,40,50];
+
+let f = function (elem){
+    console.log(elem);    
+}
+
+array8.forEach(f);
+
+console.log(array8);
+
+//Imitación del forEach
+
+array9 = [11,21,31,41,51];
+function forEach (func){
+    for (let a=0; a<array9.length;a++){
+        func(array9[a]);
+    }
+}
+
+forEach(f);
+
+console.log("=========================================");
+
+//FOR In Para arrays asociativos- tb indexados pero es ineficiente
+
+//for(clave in array) no estás recorriendo los valores - recorre las claves
+
+for (let clave in persona){
+
+    console.log("clave. "+clave);
+    console.log(`clave: ${clave}, valor: ${persona[clave]}`); //JS6
+
+}
+
+//Recorriendo con for-in un array indexado
+
+let array10 = [1,2,3,4,5];
+
+array10[20] = 500;
+
+//Break me saca del bucle
+//continue se salta una parte --??
+for(let clave in array10){
+    console.log(`clave: ${clave}, valor: ${array9[clave]}`);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+<body>
+
+    <h1>JS Arrays</h1>
+    
+</body>
+</html>

@@ -1,0 +1,124 @@
+<html>
+
+
+<script>
+//Las funciones en JS son OBJETOS en sí mismas
+// asociada SIEMPRE a otros objetos
+
+
+
+//las fuciones no indican si devuelven algo o si son void
+// todas las funciones devuelven algo -
+function saludar() {
+    console.log("Hola, ¿qué tal?");
+}
+
+saludar();
+let var1 = saludar();
+console.log(var1);
+
+// las funciones puede recibir parámetros pero sin indicar el tipo (es un lengua no tipado :P)
+function sumar1(s1,s2)
+    {
+        console.log("Sumar1: " + (s1+s2));
+    }
+//Puede invocarse una función enviando más o menos parámetros de los declarados
+
+sumar1(10,25);
+sumar1(1);
+sumar1(1,2,3,4,5,6); // solo coge los dos primeros 
+
+
+//Podemos acceder a los parámetros 'extra' dentro de la función
+console.log("=====================================");
+function sumar2(s1,s2){
+    console.log("longitud:" + arguments.length);   //es uno de los atributos del objeto función
+    for(escort=0; escort<arguments.length; escort++){
+        console.log(arguments[escort]);
+    }
+}
+sumar2(1,2,3,4,5,6);
+
+
+console.log("=====================================");
+//las funciones en JS pueden tener varios return
+
+function sumar3(s1,s2){
+    return s1+s2;
+}
+
+console.log("sumar3:" + sumar3(3,5));
+console.log("sumar3:" + sumar3);
+
+
+console.log("=====================================");
+//Funciones nested/clojures (anidadas)
+function imprimirDatos(pelicula){
+    // podemos colacar tantas funciones nested como queramos
+    //No hay límite para los niveles de funciones anidadas
+    function imprimir (datos){
+        console.log(datos);
+    }
+    imprimir(pelicula);
+}
+
+imprimirDatos("pelicula1");
+
+// imprimir("pelicula2");   no se pude utilizar, no se puede invocar desde fuera del nido
+
+console.log("=====================================");
+
+//Si las funciones son objetos entonces podemos hacer:
+    //Con parétesis ejecuto la función pero sin ellos es un objeto
+let funcion = function (str){
+    console.log("Str:"+str);
+    return "Valor";
+};
+
+let valor = funcion ("Hola");
+console.log ("Valor:"+valor);
+
+
+let funcion2 = funcion;
+console.log(funcion2("¿Qué tal?"));
+
+let funcion3 = funcion (); // funcion3 tendrá valor
+// console.log(funcion3("¿Qué tal?")); // esto no funciona
+
+let funciona3 = function(){
+        let f = function (){
+            return "movida"
+        };
+         return f;
+ }
+
+ console.log ("funciona3:"+funciona3());
+
+ let funcion4 = funciona3;  // dentro está toda la función de funciona3
+ let funcion5 = funciona3(); // solo 'f'
+
+ //Podemos declarar las funciones creando un objeto del tipo Function
+ //NO recomendable - 1Kg de mata ratas
+ console.log("=====================================");
+
+ let ohDiosMio = new Function("s1","s2","return s1+s2;"); //haciéndo esto podemos cambiar el código dinámica - para cosas personalizadas
+ //se puede utilizar también en java y modificar la app de escritorio en tiempo de ejecución
+  console.log("OhDiosMio: "+ohDiosMio(1,2));
+
+  
+
+
+
+
+
+
+
+
+
+</script>
+
+
+    <body>
+        <h1>JS.FUNCIONES</h1>
+    </body>
+</html>

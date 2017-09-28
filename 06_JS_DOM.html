@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+
+// EN JS disponemos del objeto document que representa al árbol DOM
+//Ya declarado e implícito
+
+console.log("Doc: "+document);
+
+//Función para buscar elementos en el árbol
+function pruebasDOM() {
+    console.log ("================================");
+    let nodo = document.getElementById("dato");
+
+    console.log (nodo); //nodo es un objeto
+    console.log (typeof nodo); //typeof es un 
+
+//Accediendo a propiedades del nodo
+
+    console.log(nodo["value"]);
+    console.log(nodo.value);    
+    
+//Accediendo a propiedades por 'name'. Devuelve un array de nodos que tienen cierto valor en el atributo name
+let resultado = document.getElementsByName('direccion');
+console.log(resultado);
+
+let nodo2 = resultado[0];
+console.log(nodo2.id);
+
+
+//Por tipo de etiqueta
+
+console.log ("================================");
+let arrayTds = document.getElementsByTagName("td");
+
+for(let a=0; a<arrayTds.length; a++){
+    console.log(arrayTds[a].id);
+}
+
+
+//Para buscar elementos (o etiquetas) en un documento XML
+//document.getElementsByTagNameNS
+
+// xhtml(html + xml) = sirven para procesarlos y transformarlos
+
+console.log ("================================");
+//Busqueda por estilo CSS
+document.getElementsByClassName("importante");
+//<input type="text" class="importante"/>
+
+//Accediendo a los hijos de un nodo
+    let formulario = document.getElementById("formulario");
+//Los hijos de un nodo están en su propiedad 'childnodes' que es un array indexado
+
+let hijos = formulario.childNodes;  //no lleva paréntesis porque es una propiedad 
+for (let a=0; a<hijos.length; a++){
+    console.log(hijos[a]);
+}
+
+//en el xml no debería venir nada de cómo debe mostrarse - eso estará en el CSS
+
+
+
+
+//    console.log ("================================");
+//    for(let clave in nodo){
+//        console.log(`clave: ${clave}, valor: ${nodo[clave]}`);
+//    }
+}
+
+function validar1(){
+    var x = document.getElementById("nombre").value;
+    if(nombre.trim() == ""){
+        alert('Error nombre');
+    }
+
+    var x = document.getElementById("direccion").value;
+    if(nombre.trim() == ""){
+        alert('Error direccion');
+    } 
+}
+
+//Validar campo input + texto -en general
+function validar2(){
+   var x = document.getElementsByTagName("input");
+   console.log(x);
+ 
+   for(let a=0; a<x.length; a++){
+       if (x[a].type == "text"){
+           console.log(`Valor con text: ${x[a].value}`)
+           if(x[a].value.trim() == ""){
+               alert (`Error rellenar el campo ${x[a].name}`)
+           }
+       }
+   }
+}
+
+function validar(){
+   let formulario = document.forms.formulario //Aquí hacemos referencia a la propiedad name
+   //let formulario = document.getElementById("formulario"); //lo mismo que lo de arriba
+
+   console.log(formulario.nombre.value);
+   console.log(formulario.direccion.value);
+   console.log(formulario.telefono.value);
+
+
+   //with: para acceder a propiedades de un objeto
+
+   with(formulario){
+    console.log(nombre.value);
+    console.log(direccion.value);
+    console.log(telefono.value);
+   }
+   with(formulario){
+        var persona = { nombre : nombre.value,
+                        direccion: direccion.value,
+                        telefono: telefono.value };
+   }
+
+   console.log(persona);
+
+   with(persona){
+       console.log(nombre);
+       console.log(direccion);
+       console.log(telefono);
+   }
+}
+
+function prepararParametros(){
+    console.log("================================================");
+   var nombre = document.getElementById("nombre").value;
+   var direccion = document.getElementById("direccion").value;
+   var telefono = document.getElementById("telefono").value;
+
+   let parametros = `nombre=${nombre}&direccion=${direccion}&telefono=${telefono}`;
+
+   console.log(parametros);
+
+   //document.getElementsByTagName("input")
+
+
+//Aproximación
+   var x = document.getElementsByTagName("input");
+   console.log(x);
+    var parametro ="";
+   for(let a=0; a<x.length; a++){
+       if (x[a].type == "text"){
+           parametro = parametro +`${x[a].name}=${x[a].value.trim()}&`  
+       }
+   }
+
+   console.log("===============GENÉRICO=================================");
+
+   console.log(parametro);
+
+
+//Mejor esta opción:
+
+    let formulario = document.forms.formulario;
+    let arrayElementos = formulario.elements;
+    var concatenacion ="";
+
+    for (let a=0; a<arrayElementos.length;a++){
+        let elemento = arrayElementos[a];
+        if(elemento.type != "button" && elemento.type != "submit"){
+            concatenacion = concatenacion + elemento.name + '='+elemento.value +'&';
+        }
+    }
+
+    //console.log(arrayElementos);
+    console.log(concatenacion.slice(0,-1));
+
+}
+
+
+
+</script>
+<body onload="pruebasDOM()">
+
+
+     <h1>Ejemplo del árbol DOM</h1>
+        
+          Nombre: <input type="text" name="dato" id="dato" size="25" value="texto"/>
+        
+        <hr/>
+        
+        <form name="formulario" id="formulario" action="#" method="get">
+               <input type="button" name="accion" value="Validar" onclick="validar()"/>
+               <input type="button" value="Preparar parametros" onclick="prepararParametros()"/>
+               <table>
+                   <tr>
+                       <td id='td1'>Nombre</td>
+                    <td id='td1´'>
+                        <input type="text" name="nombre" id="nombre"/>
+                    </td>
+                </tr>
+                 <tr>
+                    <td id='td2'>Dirección</td>
+                     <td id='td3'>
+                        <input type="text" name="direccion" id="direccion"/>
+                     </td>
+                </tr>
+                 <tr>
+                     <td id='td4'>Teléfono</td>
+                     <td id= 'td5'>
+                         <input type="text" name="telefono" id="telefono"/>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td id='td7'>Ciudad</td>
+                     <td id= 'td8'>
+                         <select name="ciudad">
+                         <option>Getafe</option>
+                         <option>Madrid</option>
+                         <option>Salamanca</option>
+                         <option>Santa Pola</option>
+                         </select>
+                     </td>
+                 </tr>
+                 <tr>
+                     <td id='td9'>Observaciones</td>
+                     <td id= 'td10'>
+                         <textarea  name="observaciones"></textarea>
+                     </td>
+                 </tr>
+            </table>
+         </form>
+    
+</body>
+</html>

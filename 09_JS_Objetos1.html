@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+  
+    <title>Document</title>
+</head>
+<script type="text/javascript">
+
+//LAS FUNCIONES SON OBJETOS
+//UNA FUNCIÓN tiene dos usos:
+    //1. almacenar un código que querems que se ejecute y reutilice
+    //2. definir el prototipo de un objeto 
+    
+//Definiendo un prototipo
+
+    //para llamar al prototipo new PrototipoCliente() - creo una instancia
+
+    function PrototipoCliente(){    //con mayúscula como si fuera clase OJO! es un prototipo
+
+        //añadimos propiedades al prototipo usando la palabra reservada this - hace referencia a la función
+        this.nombre = undefined;
+        this.direccion = undefined;
+        this.telefono = undefined;
+       
+        
+    }
+
+
+//Creamos las instancias invocando la función que define el prototipo con new
+    let c1 = new PrototipoCliente(); //cliente
+   // let c2 = PrototipoCliente(); //Undefinied
+   // let c3 = Cliente;   //funcion
+   // let c4 = new c3(); //cliente
+    
+    
+    
+    console.log(c1);
+
+    c1.nombre = "Virginia";
+    c1.direccion = "Reinosa";
+    c1.telefono = 916084570;
+
+    console.log(c1);
+
+
+    let c2 = new PrototipoCliente() //nuevo objeto
+    
+    c2.nombre = "John McClane";
+    c2.direccion = "Trafalgar";
+    c2.telefono = 555;
+
+
+//Añadiendo funciones
+    //- pueden declararse dentro de la declaración prototipo - con nesteed functions
+    //- o a posteriori utilizando 'prototype'
+
+
+    /*Diferencias     por motivos de eficiencia se prefiere declarar las funciones a posteriori
+    puesto que cada vez que se instancia el prototipo se copia todo lo que hay dentro del prototipo
+    Si lo tengo fuera no se carga todos los métodos */
+
+PrototipoCliente.prototype.imprimirDatos = function() {
+    console.log (  `Nombre:  ${this.nombre} 
+                    direccion:${this.direccion}
+                    telefono:${this.telefono}`);
+}
+c1.imprimirDatos();
+
+
+//Añadir un atributo correo electrónico
+//PrototipoCliente.prototype.correoE = `${PrototipoCliente.nombre} @m.com`; // para usar el this tiene que se en una función
+PrototipoCliente.prototype.correoE = "loquesea@m.com"; // para usar el this tiene que se en una función
+console.log("CORREO: "+c1.correoE);
+
+PrototipoCliente.prototype.escribirCorreo = function(){
+    console.log(this.nombre + "@email.com");
+}
+
+c1.escribirCorreo();
+
+
+
+
+//This apunta a pelicula no a la función imprimir datos
+let pelicula = {    titulo : 'Depredador',
+                    genero : 'Accion',
+                    imprimirDatos : function() {
+                        console.log (this.titulo + this.genero);
+                    }}
+
+pelicula.imprimirDatos();
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+//Constructores 
+//Podemos aprovechar los parámetros que recibe la función prototipo
+//para inicializar el objeto a modo de cutreconstructor
+
+function PLibro (titulo, autor){
+    this.titulo = titulo; 
+    this.autor = autor;
+    this.mostrar = function() {
+        console.log("Título: "+ this.titulo + "  Autor:  " + this.autor);
+    }
+}
+
+let l1 = new PLibro("La ciudad de las bestias", "Isabel Allende");
+l1.mostrar();
+
+
+//Definiendo funciones dentro del prototipo
+
+function PCoche (marca, modelo, matricula){
+    this.marca = marca;
+    this.modelo = modelo;
+    this.matricula = matricula;
+
+
+    this.toString = function toString(){
+        return ` ${this.marca} ${this.modelo} ${this.matricula}`;
+    }
+
+}
+
+let coche1 = new PCoche("ford", "pega", 1111);
+console.log(coche1.toString());
+
+///////////////////////////PÚBLICO Y PRIVADO//////////////////////////////////
+
+//Función  'privada'
+function x(){
+    console.log("Función X");
+}
+
+//Función pública - ponemos el this
+this.funcionPublica = function(){
+    console.log("Función pública");
+    //Podemos llamar funciones 'privadas'
+    x()
+}
+
+
+//Aquí me he perdido - buscar por internet simular una función privada
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+
+//Propiedad  'privadas'
+    function Disco (titulo,_grupo){
+        this.titulo = titulo; //público
+        let grupo = _grupo; //privada
+
+        //Las propiedades privadas se declaran sin el this
+        //debemos añadir métodos accesores para las propiedades privadas
+        // y también tirarnos por un barranco
+        this.getGrupo = function(){  //Si lo añadimos con prototype - no funcionaría - tiene que se con función anidada
+            return grupo;
+        }
+    }
+
+    let disco = new Disco("DSOTM","Pink Floyd");
+    ///console.log(disco.grupo);   // no me deja 
+    console.log(disco.getGrupo()); 
+    
+//Propiedad 'estático' - pertenecen a las clases - una común para todos los objetos
+
+ //para el ID de las películas
+function Factura(){
+
+    if(typeof Factura.contador == 'undefined'){
+         Factura.contador = 0;
+    }
+    Factura.contador++;
+    this.total = 0;
+   
+ }
+
+let f1 = new Factura();
+let f2 = new Factura();
+let f3 = new Factura();
+let f4 = new Factura();
+
+//Para acceder a la propiedad 'Estática'
+console.log(Factura.contador);
+
+</script>
+
+
+<body>
+    <h1>JS. Objetos definidos con funciones</h1>
+</body>
+</html>

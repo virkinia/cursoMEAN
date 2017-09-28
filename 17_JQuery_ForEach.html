@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+    $(inicializar);
+
+    function inicializar(){
+            $("h2");            //Demasiado genérico
+            $("[id^=color-]");  //Un poco mejor
+            $("h2[id^=color-]");//PERFECTO
+           
+           
+         let nodos = $("h2[id^=color-]");
+
+        console.log("======================");
+         for (var a = 0; a < nodos.length; a++) {
+             console.log(nodos[a].innerHTML);
+             
+         }
+
+        console.log("======================");
+         $("h2[id^=color-]").each(function(){   //ForEach de Jquery
+             //dentro de esta función 'this' es el nodo
+             console.log(this.innerHTML);
+
+             //es un nodo normal - no es un objeto jquery
+             //console.log(this.html()); esto falla
+
+             //Con JQuery 'enriquecer' un nodo para que cuente con todas las funcionalidades
+             //¿Cueces o Enriqueces?
+
+             //$(this).html("A ver"); //Si le mandas un nodo de árbol -> lo enriquece 
+         });
+        
+        
+        console.log("======================");
+
+        $("h2[id^=color-]").each(function(){
+
+            let enriquecido = $(this) ;
+
+            console.log($(this).html().toLowerCase());
+
+           // $(this).css("color", $(this).html().toLowerCase());
+            enriquecido.css("color", enriquecido.html().toLowerCase());
+
+           
+            switch(enriquecido.text()){
+                case "Rojo":    enriquecido.css("color","red");
+                                break;
+                case "Azul":    enriquecido.css("color","blue");
+                                break;
+                case "Verde":   enriquecido.css("color","green");
+                                break;
+                case "Amarillo":enriquecido.css("color","yellow");
+                                break;
+                case "Fabada":  enriquecido.css("color","#FABADA");
+                                break;
+            }
+            
+
+     });
+
+    }
+</script>
+
+
+
+
+<body>
+
+
+        <h1>JQuery for each</h1>
+        <h2 id="color-1">RED</h2>
+        <h2 id="color-2">GREEN</h2>
+        <h2 id="color-3">BLUE</h2>
+        <h2 id="color-4">YELLOW</h2>
+        <h2 id="color-5">PINK</h2>
+
+        <h1>JQuery for each - con swith</h1>
+        <h2 id="color-1">Rojo</h2>
+        <h2 id="color-2">Verde</h2>
+        <h2 id="color-3">Azul</h2>
+        <h2 id="color-4">Amarillo</h2>
+        <h2 id="color-5">Fabada</h2>
+    
+        
+    
+</body>
+</html>

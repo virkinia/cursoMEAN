@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript">
+
+//Un array para guardar las películas
+let peliculas = [];
+
+//PELICULA/////////////////////////////////////////
+function Pelicula(titulo, director, genero, year){
+    this.id = 0;
+    this.titulo = titulo;
+    this.director = director;
+    this.genero = genero;
+    this.year = year;
+}
+///////////////////////////////////////////////////
+peliculas.push(new Pelicula("T1","D1","G1",1111));
+peliculas.push(new Pelicula("T2","D2","G2",2222));
+peliculas.push(new Pelicula("T3","D3","G3",3333));
+peliculas.push(new Pelicula("T4","D4","G4",4444));
+///////////////////////////////////////////////////
+
+function rellenarTabla(){
+
+    let tabla =document.getElementById("tablaPeliculas");
+    tabla.innerHTML = "";
+
+    for(let a=0; a<peliculas.length; a++){
+
+        let pelicula = peliculas[a];
+
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let td4 = document.createElement("td");
+
+        let txt1 = document.createTextNode(pelicula.titulo);
+        let txt2 = document.createTextNode(pelicula.director);
+        let txt3 = document.createTextNode(pelicula.genero);
+        let txt4 = document.createTextNode(pelicula.year);
+
+        td1.appendChild(txt1);
+        td2.appendChild(txt2);
+        td3.appendChild(txt3);
+        td4.appendChild(txt4);
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+
+        tabla.appendChild(tr);        
+
+    }
+
+
+}
+
+function insertar(){
+    /*Lo mismo pero sin prototipo:
+    let pelicula = { 'titulo'   : document.getElementById("titulo").value,
+                     'director' : document.getElementById("director").value,
+                     'genero'   : document.getElementById("genero").value,
+                     'year'     : document.getElementById("year").value };
+    peliculas.push(pelicula);
+    rellenarTabla();*/
+
+    if(!validarFormulario()){
+        return;
+    }
+
+    let titulo   = document.getElementById("titulo").value;
+    let director = document.getElementById("director").value;
+    let genero   = document.getElementById("genero").value;
+    let year     = document.getElementById("year").value;   
+
+    let pelicula = new Pelicula(titulo, director, genero, year);
+    peliculas.push(pelicula);
+    rellenarTabla();
+
+}
+
+function validarFormulario(){
+    
+    document.getElementById("msjTitulo").innerHTML = "";
+    document.getElementById("msjDirector").innerHTML = "";
+    document.getElementById("msjGenero").innerHTML = "";
+    document.getElementById("msjYear").innerHTML = "";
+    
+    let ok = true; 
+
+    let titulo = document.getElementById("titulo").value;
+    if( titulo.trim().length == 0){
+        document.getElementById("msjTitulo").innerHTML = "Campo obligatorio";
+        ok = false;
+    }
+
+    let director = document.getElementById("director").value;
+    if( director.trim().length == 0){
+        document.getElementById("msjDirector").innerHTML = "Campo obligatorio";
+        ok = false;
+    }
+
+    let genero = document.getElementById("genero").value;
+    if( genero.trim().length == 0){
+        document.getElementById("msjGenero").innerHTML = "Campo obligatorio";
+        ok = false;
+    }
+
+    let year = document.getElementById("year").value;
+    if( year.trim().length == 0){
+        document.getElementById("msjYear").innerHTML = "Campo obligatorio";
+        ok = false;
+    }
+
+    return ok;
+
+}
+
+function modificar(){
+    console.log("Modificar");
+}
+
+function borrar(){
+    console.log("Borrar");
+}
+
+function vaciar(){
+    document.getElementById("titulo").value="";
+    document.getElementById("director").value="";
+    document.getElementById("genero").value="";
+    document.getElementById("year").value="";
+}
+
+window.onload = function(){
+
+    document.getElementById("btnInsertar").onclick = insertar;
+    document.getElementById("btnModificar").onclick = modificar;
+    document.getElementById("btnBorrar").onclick = borrar;
+    document.getElementById("btnVaciar").onclick = vaciar;
+
+    rellenarTabla();
+
+}
+
+</script>
+
+<body>
+
+    <h1 align="center">
+        <font color="lightGreen">
+            Gestión de Películas        
+        </font>
+    </h1>
+
+    <p align="center">
+        <input type="button" id="btnInsertar"  value="Insertar"/>
+        <input type="button" id="btnModificar" value="Modificar"/>
+        <input type="button" id="btnBorrar"    value="Borrar"/>
+        <input type="button" id="btnVaciar"    value="Vaciar"/>
+    </p>
+
+    <table align="center">
+        <tr>
+            <td>Título</td>
+            <td>
+                <input type="text" id="titulo"/>
+            </td>
+            <td id="msjTitulo"></td>
+        </tr>
+        <tr>
+            <td>Director</td>
+            <td>
+                <input type="text" id="director"/>
+            </td>
+            <td id="msjDirector"></td>
+        </tr>
+        <tr>
+            <td>Género</td>
+            <td>
+                <input type="text" id="genero"/>
+            </td>
+            <td id="msjGenero"></td>            
+        </tr>
+        <tr>
+            <td>Año</td>
+            <td>
+                <input type="text" id="year"/>
+            </td>
+            <td id="msjYear"></td>
+        </tr>
+    </table>
+
+    <p/>
+
+    <table align="center" border="1">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Director</th>
+                <th>Género</th>
+                <th>Año</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPeliculas">
+
+        </tbody>
+    </table>
+
+</body>
+</html>

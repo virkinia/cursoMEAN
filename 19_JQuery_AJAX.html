@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+
+
+
+function enviarPeticionSincrona(){
+    let parametros = `?nombre=${$("#nombre").val}`;
+    $.ajax({ 'url' : "http://localhost:8080/Ej01_EjemploAjax/buscar"+parametros,
+            'async': false,
+            'success' : procesarRespuesta,
+            'error'   : mostrarError});
+    
+}
+function enviarPeticionAsincrona(){
+    let parametros = `?nombre=${$("#nombre").val}`;
+    $.ajax({ 'url' : "http://localhost:8080/Ej01_EjemploAjax/buscar"+parametros,
+            'success' : procesarRespuesta,
+            'error'   : mostrarError});
+
+}
+
+
+function procesarRespuesta(){
+
+    console.log("=================================");
+    console.log(arguments);
+    $("#resultado").html("<h2>"+respuesta+"</h2>");
+
+}
+function mostrarError(){
+    console.log("=================================");
+    console.log(arguments);
+    
+    alert("ZASCA!");
+}
+
+$(inicializar);
+
+function inicializar(){
+    $("#btnBuscarS").click(enviarPeticionSincrona);
+    $("#btnBuscarA").click(enviarPeticionAsincrona);
+
+}
+</script>
+ 
+<body>
+     <marquee>
+        <h1>
+            <font color="orange">
+                AJAX
+            </font>
+        </h1>
+    </marquee>
+    <p align="center">
+        Nombre
+        <input type="text" id="nombre">
+        <input type="button" id="btnBuscarS" value="Buscar_Síncrono"> 
+        <input type="button" id="btnBuscarA" value="Buscar_Asíncrono"> 
+        <!-- si no encontramos un botón sin name es porque va haber javascript sí o sí-->
+    </p>
+    <p align="center" id="resultado" ></p>
+</body>
+</html>
