@@ -1,0 +1,108 @@
+<html>
+
+<script type="text/javascript">
+
+//alert("HOLA");
+console.log("hola.");
+
+
+//Variables (no tipadas)
+//Tipos de variables: numérico, booleano, cadena de texto, objeto
+
+numero = 1;
+numeroDecimal = 1.5; //no diferencia entre decimales y enteros 
+texto1 = "HOLA";
+texto2 = 'hola';
+
+//muy pocas palabras reservadas
+activo = true; 
+visitado = false;
+
+
+//Una variable mal declarada que da error
+//dato;
+
+//Valores especiales
+
+//Undefinied - variable declarada y sin valor = 'undefined'
+//carece de valor + ignoramos su tipo
+var dato; 
+
+//También podemos usar null; Pero no sabemos qué tipo es
+var dato2 = null
+
+console.log(dato);
+console.log(dato2);
+
+//Todas estas variable se añaden a window
+
+
+//Comprobando que algo es un número
+var numero2 = 42;
+console.log("isNaN:" + isNaN(numero2));
+
+//otro método typeof
+//devuelve un string indicando el tipo
+// undefined | number | string | boolean | object
+
+console.log(typeof numero2);
+if (typeof numero2 == "number"){
+    console.log("number");
+}
+if (typeof dato == "undefined"){
+    console.log("dato es undefined");
+}
+
+//var 
+console.log("=====================================");
+txt1= "hola-1";
+var txt2 = "hola-2";
+
+function movida (){
+    txt3 = "hola-3";   //ámbito de alcance global (tb porque he llamado a la func)
+    var txt4 = "hola-4"; //con var el ámbito está dentro de la función 
+    console.log(txt1);
+    console.log(txt2);
+
+    if (5>1){
+            var txt5 = "Hola-5";
+    }
+    console.log(txt5);
+}
+
+movida(); // si no hubiera llamado a la función tb txt3 no estaría declarada
+
+console.log(txt3);
+// console.log(txt4); esta no se ve
+
+
+
+//Novedades en JS6
+    //Adición de clases en JS6
+    //Constantes 
+        const alturaMax = 100;
+        // produce error al interpretarlo alturaMax = 75;
+    //Variables asociadas al bloque
+    //Variable declaradas en un bloque de código
+    console.log("=====================================");
+    
+    {
+        let dato3 = 5;
+    }
+   // console.log("dato3:" + dato3); //Esto no se ve
+
+    var v1 = 5;
+    var v1 = 10;
+
+    let l1 = 15;
+   // let l1= 20;   no puedes volver a declararla con let
+
+
+
+</script>
+    
+<body>
+    <h1> JS. Variables </h1>
+</body>
+</html>
+
